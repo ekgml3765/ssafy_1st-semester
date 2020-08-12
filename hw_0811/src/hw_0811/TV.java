@@ -11,4 +11,14 @@ public class TV extends Product {
 		super.setAmount(amount);
 		super.setCapacity(capacity);
 	}
+
+	@Override
+	public String toString() {
+		return "TV [getAmount()=" + getAmount() + ", getCapacity()=" + getCapacity() + ", getInfo()=" + getInfo()
+				+ ", getP_Num()=" + getP_Num() + ", getP_price()=" + getP_price() + ", getP_Name()=" + getP_Name()
+				+ ", toString()=" 
+				+ "]";
+	}
+	
+	
 }

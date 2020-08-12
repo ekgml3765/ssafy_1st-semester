@@ -1,4 +1,4 @@
-package hw_0811;
+package hw_0812;
 
 import java.util.ArrayList;
 
@@ -25,9 +25,22 @@ public class ProductMgrImpl implements IProductMgr{
 	}
 	//추가
 	@Override
-	public void add(Product p) {
+	public void add(Product p) throws DuplicateException {
 		// TODO Auto-generated method stub
-		pd.add(p);
+		boolean flag = true;
+		if(pd.size() == 0) {
+			pd.add(p);
+			return;
+		}
+			
+		for(int i = 0; i < pd.size(); i++) {
+			if(pd.get(i).getP_Num() == p.getP_Num()) {
+				flag = false;
+				break;
+			}
+		}
+		if(flag == false) throw new DuplicateException();
+		else pd.add(p);
 	}
 
 	//전체 검색
@@ -39,15 +52,16 @@ public class ProductMgrImpl implements IProductMgr{
 
 	//번호로 검색
 	@Override
-	public ArrayList<Product> serch_Num(int p_num) {
+	public ArrayList<Product> serch_Num(int p_num) throws CodeNotFoundException {
 		// TODO Auto-generated method stub
 		ArrayList<Product> result = new ArrayList<Product>();
 		for (int i = 0; i < pd.size(); i++) {
 			if (pd.get(i).getP_Num() == p_num) {
 				result.add(pd.get(i));
+				return result;
 			}
 		}
-		return result;
+		throw new CodeNotFoundException();
 		
 	}
 
@@ -79,15 +93,16 @@ public class ProductMgrImpl implements IProductMgr{
 
 	// 용량 tv or 냉장고 
 	@Override
-	public ArrayList<Product> serch_Info2(String info, int num) {
+	public ArrayList<Product> serch_Info2(String info, int num) throws ProductNotFoundException{
 		// TODO Auto-generated method stub
 		ArrayList<Product> result = new ArrayList<Product>();
 		for (int i = 0; i < pd.size(); i++) {
-			if (pd.get(i).getInfo().contains(info) && pd.get(i).getCapacity() >= num) {
+			if (pd.get(i).getInfo().contains(info) && pd.get(i).getCapacity() == num) {
 				result.add(pd.get(i));
+				return result;
 			}
 		}
-		return result;
+		throw new ProductNotFoundException();
 	}
 
 	//상품 번호로 삭제
@@ -96,9 +111,10 @@ public class ProductMgrImpl implements IProductMgr{
 		// TODO Auto-generated method stub
 	
 		for(int i = 0; i < pd.size(); i++) {
-			if(pd.get(i).getP_Num() == p_num)
+			if(pd.get(i).getP_Num() == p_num) {
 				pd.remove(i);
-			return true;
+				return true;
+			}			
 		}
 		
 		return false;

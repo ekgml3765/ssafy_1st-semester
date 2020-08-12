@@ -1,4 +1,4 @@
-package hw_0811;
+package hw_0812;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -53,11 +53,20 @@ public class ProductTest {
 				int capacity = sc.nextInt();
 				if (info.equals("TV")) {
 					TV tv = new TV(p_num, p_Name, price, info, amount, capacity);
-					pdmgr.add(tv);
+					try {
+						pdmgr.add(tv);
+					} catch (DuplicateException e) {
+						System.out.println("상품 번호가 같으며 이미 존재하는 상품입니다.");
+					}
 				}
 				if (info.equals("냉장고")) {
 					Refrigerator re = new Refrigerator(p_num, p_Name, price, info, amount, capacity);
-					pdmgr.add(re);
+					try {
+						pdmgr.add(re);
+					} catch (DuplicateException e) {
+						System.out.println("상품 번호가 같으며 이미 존재하는 상품입니다.");
+
+					}
 				}
 				break;
 			}
@@ -65,18 +74,22 @@ public class ProductTest {
 			case 2: {// 상품 정보 전체 검색
 				ArrayList<Product> list = new ArrayList<>();
 				list = pdmgr.serch();
-				for (int i = 0; i < list.size(); i++)
-					System.out.println(list.get(i).toString());
+				for (int i = 0; i < pdmgr.getSize(); i++)
+					System.out.println(list.get(i));
 				break;
 			}
 
 			case 3: {// 상품 번호검색
 				System.out.println("상품 번호를 입력해주세요:");
 				int number = sc.nextInt();
-				for ( Product x : pdmgr.serch_Num(number)) {
-					if (x != null) {
-						System.out.println(x);
+				try {
+					for (Product x : pdmgr.serch_Num(number)) {
+						if (x != null) {
+							System.out.println(x);
+						}
 					}
+				} catch (CodeNotFoundException e) {
+					System.out.println("상품번호가 존재하지 않습니다");
 				}
 				break;
 			}
@@ -125,7 +138,7 @@ public class ProductTest {
 				break;
 			}
 
-			case 9: {//상품가격 변경
+			case 9: {// 상품가격 변경
 				System.out.println("상품 번호를 입력하세요:");
 				int num = sc.nextInt();
 				System.out.println("변경할 가격을 입력하세요:");
@@ -134,16 +147,20 @@ public class ProductTest {
 				System.out.println("변경되었습니다.");
 				break;
 			}
-			
+
 			case 10: {
 				System.out.println("무엇을 검색하시겠습니까? TV or 냉장고 ");
 				String s = sc.next();
 				System.out.println("용량 크기를 숫자로만 입력하세요.");
 				int size = sc.nextInt();
-				for (Product x : pdmgr.serch_Info2(s, size)) {
-					if (x != null) {
-						System.out.println(x);
+				try {
+					for (Product x : pdmgr.serch_Info2(s, size)) {
+						if (x != null) {
+							System.out.println(x);
+						}
 					}
+				} catch (ProductNotFoundException e) {
+					System.out.println("그런 상품은 존재하지 않습니다.");
 				}
 				break;
 			}
