@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>calculator</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+		#calc{
+			border:1px solid gray;
+			width:350px;
+			text-align: center;
+		}
+		#formula{
+			text-align: right;
+			width:80%;
+			margin-top:10px;
+			margin-bottom:20px;
+		}
+		#resultDiv{
+			text-align: left;
+			margin-left:40px;
+		}
+		button{
+			width:70px;
+			height:70px;
+		}
+</style>
+</head>
+<body>
+	<div id="calc">
+		<input type="text" id="formula" value="" placeholder="0.0" readonly/>
+		<div id="pad">
+			<button class="num">7</button>
+			<button class="num">8</button>
+			<button class="num">9</button>
+			<button class="oper">+</button>
+			<button class="num">4</button>
+			<button class="num">5</button>
+			<button class="num">6</button>
+			<button class="oper">-</button>
+			<button class="num">1</button>
+			<button class="num">2</button>
+			<button class="num">3</button>
+			<button class="oper">*</button>
+			<button class="num">0</button>
+			<button class="reset">CE</button>
+			<button class="calc">=</button>
+			<button class="oper">/</button>
+		</div>
+		<div id="resultDiv">
+			<h2>결 과 이 력</h2>
+			<p id="result"></p>
+		</div>
+	</div>
+<script type="text/javascript">	
+	
+	$(document).ready(function() {
+		var preIsNum = false;
+		var formula = $("#formula");
+		
+		$(".num").click(function() {
+			var n = $(this).html();
+				if(formula.val() == "" && n == 0 )
+					return;
+				 $("#formula").val(formula.val()+n); 
+				preIsNum = true;
+		})
+		
+		
+		$(".oper").click(function() {
+			var n = $(this).html();
+			if(preIsNum == false)
+				return;
+			 $("#formula").val(formula.val()+n);
+			preIsNum = false;
+		})
+		
+		
+		$(".reset").click(function() {
+			 $("#formula").val("");
+		})
+		
+		var count = 0;		
+		$(".calc").click(function() {
+			if(preIsNum == false)
+				return;
+			$("#result").append((++count) + "." + formula.val() + "=" + eval(formula.val()) + "</br>");
+			 $("#formula").val("");
+			preIsNum = false;
+		})
+		
+	});
+
+</script>
+</body>
+</html>
