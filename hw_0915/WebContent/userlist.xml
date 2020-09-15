@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<users>
+   <user>
+      <id>ssafy</id>
+      <pw>ssafy</pw>
+      <name>SSAFY</name>
+   </user>
+   <user>
+      <id>dahui</id>
+      <pw>dahui</pw>
+      <name>다희짱</name>
+   </user>
+</users>
