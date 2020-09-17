@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div style="border: 1px">
+		<h1>상품을 등록해주세요</h1>
+		<form action="/hw_0917/product.do">
+			<div>
+				<span>상 품 명:</span><input type="text" name="product_name" required="required">
+			</div>
+			<div>
+				<span>상 품 가격:</span><input type="number" name="product_price" required="required">
+			</div>
+			<div>
+				<span>상 품 설명:</span><input type="text" name="product_dic" required="required">
+			</div>
+			<div>
+				<button type="submit">저장</button>
+				<button type="reset">취소</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
