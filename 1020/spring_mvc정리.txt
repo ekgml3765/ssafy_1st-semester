@@ -1,0 +1,92 @@
+[ mvc 정리 ]
+
+[ spring 파일 구조 ]
+-src/main/java - JAVA파일
+-src/main/resources - xml, properties 등 파일
+-src/test/java - src/main/java의 JAVA의 기능을 단위테스트 하는 코드
+-src/test/resources - src/main/resources의 파일과 동일하게 입력후 테스트
+-src/main/webapp - 화면 관련 파일
+-src/main/webapp/resources - css, image, js 등 브라우저 실행파일
+-src/main/webapp/WEB_INF - jsp 파일 위치
+
+[spring application 구성]
+1. pojo (비즈니스로직) = bean : 비즈니스 로직으로 구성되어 재사용 가능한 객체
+-> spring에선 Singleton 디자인으로 pojo를 자동으로 관리해줌.
+2. 메타정보 (애플리케이션 구성정보) : pojo를 어떻게 bean으로 구성할것인지에 대한 정보
+-> xml config, annotaion, java config 3가지 방식으로 나뉨
+3. 스프링 프레임워크 : bean의 컨테이너로서의 역할.
+
+[DI (Dependency Injection) 의존성 주입] 
+- 목적: DI목적은 의존성 제거하여 유지보수성 상승. 
+- 동작방법
+1. POJO 작성
+2. POJO에 대한 메타정보 작성하여 스프링 컨테이너에게 전달
+3. 스프링 컨테이너는 메타정보를 통해 POJO객체를 만들고 setter/생성자를 호출해 bean설정 마무리.
+
+[Spring의 MVC 구성요소]
+spring MVC란 Front Controller Pattern에 기초한 웹 MVC 프레임워크.
+
+*  DispatcherServlet = Front Controller. 서블릿은 딱 하나.
+- client의 모든 request를 접수함.
+
+[동작방식]
+1. DispatcherServlet가 모든 클라이언트 브라우저에서 발생한 요청을 접수함.
+2. DispatcherServlet는 요청을 접수만 받으므로, HandlerMapping에게 요청을 처리할 Handler를 물어보고 HandlerMapping은 적절한 Handler를 알려줌.
+3. DispatcherServlet는 접수만 받으므로 직접 Handler 호출 불가능. HandlerAdapter에게 요청 전달.
+4. HandlerAdapter가 Handler 호출하면서 요청 처리함.
+5. Handler는 요청을 분석후, model과 호출하며 필요한 service호출.
+6. service에서 반환된 데이터는 view에서 사용되는 경우가 많으므로 spring에서는 model타입 객체 사용
+7. 데이터 저장 후, view 페이지를 HandlerAdapter를 통해 DispatcherServlet에게 전달
+8. DispatcherServlet는 ViewResolver에게 어떤 view를 호출해야하는지 물어보고 결과 받음.
+9. view 해당 표시 요청
+10. Html을 구성하며 service 동작 결과를 참조하기 위해 model 데이터 사용
+11. view가 클라이언트에게 전달.
+
+[프로젝트 실행 순서]
+1. 프로젝트가 tomcat 서버에 올라갈때 가장 먼저 읽는 문서는 web.xml
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+- 해당 문서를 보면 ContextLoaderListener라는 클래스의 리스너가 메모리에 올라가면서 context-param에관한 처리를 한다.
+contextConfigLocation 라는 이름의 /WEB-INF/spring/root-context.xml 라는 value를 가진 이 부분에 대한 처리를 리스너가 한다.
+
+2. root-context.xml
+backend와 관련된 설정을 담당하며, 공통으로 사용될 파일들을 관리한다.
+dataSource등을 관리함.
+
+3. DispatcherServlet
+
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+- 서블릿에 관한 설정 부분이 /WEB-INF/spring/appServlet/servlet-context.xml 에 적혀있음.
+서블릿이 초기화될 때 동작하는 설정이 담겨져 있다.
+
+<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+ex) 서블릿이 home이라는 view이름을 준다면 해당 경로는 prefix, suffix를 붙여
+/WEB-INF/views/home.jsp라는 걸 알 수 있다.
+
+<context:component-scan
+		base-package="com.ssafy.webex.controller" />
+
+bean을 annotation방식으로 만든다면 @component로 bean객체를 표시할 수 있는데 이때, 
+component-scan을 통해 component들을 확인 할 수 있고 해당 component들의 기본이 되는 
+패키지를 명시해주어야 한다. 
