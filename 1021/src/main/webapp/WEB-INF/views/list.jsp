@@ -40,7 +40,7 @@ table, th, td {
 			</tr>
 			</c:if>
 		</table>
-		<a href="#">새상품 등록</a>
+		<a href="${root }/register">새상품 등록</a>
 	</div>
 </body>
 </html>
