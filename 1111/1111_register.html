@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+      .thead {
+        padding-left: 50px;
+        padding-right: 50px;
+        background-color: blueviolet;
+        color: white;
+      }
+      input {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main" class="container">
+      <h1>SSAFY HRM ADD EMPLOEE</h1>
+      <hr />
+     
+        <table class="table-bordered">
+          <tr>
+            <td class="thead">이름</td>
+            <td><input type="text" v-model="name" /></td>
+          </tr>
+          <tr>
+            <td class="thead">이메일</td>
+            <td><input type="email" v-model="email"/></td>
+          </tr>
+          <tr>
+            <td class="thead">고용일</td>
+            <td><input type="date" v-model="hiredate" />연도-월-일시</td>
+          </tr>
+          <tr>
+            <td class="thead">직책</td>
+            <td>
+              <select v-model="job" >
+                <option value="사장">사장</option>
+                <option value="영업부장">영업부장</option>
+                <option value="과장">과장</option>
+                <option value="대표이사">대표이사</option>
+                <option value="사원">사원</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="thead">부서</td>
+            <td><input type="text" v-model="department" /></td>
+          </tr>
+          <tr>
+            <td class="thead">월급</td>
+            <td><input type="text" v-model="money" /></td>
+          </tr>
+          <tr>
+            <td class="thead">커미션</td>
+            <td><input type="text" v-model="comm" /></td>
+          </tr>
+        </table>
+        <div style="text-align: center; margin: 10px">
+          <button @click="click"/>사원 추가</button>
+        </div>
+     {{name}}
+     {{email}}
+     {{hiredate}}
+     {{admin}}
+     {{department}}
+     {{job}}
+     {{comm}}
+     {{money}}
+   
+    </div>
+
+    <script>
+      let list = JSON.parse(localStorage.getItem('employees'));
+      if(list==null){
+        list=[];
+        localStorage.setItem('employees',JSON.stringify(list));
+      }
+      let num = localStorage.getItem('num');  
+      console.log('넘버' + num);
+      if (num == null) {
+        num = 1;
+        localStorage.setItem('num', num);
+      }
+      
+      new Vue({
+        el: '#main',
+        data() {
+          return {
+            name : '',
+            email : '',
+            hiredate : '',
+            admin : '',
+            department :'',
+            job :'',
+            comm : '',
+            money : '',
+          };
+        },
+        methods: {
+          click(){
+           list.push({
+             name: this.name,
+             email: this.email,
+             hiredate: this.hiredate,
+             admin: this.admin,
+             department: this.department,
+             job: this.job,
+             comm: this.comm,
+             money: this.money
+           });
+            localStorage.setItem('num', num+1);
+            localStorage.setItem('employees', JSON.stringify(list));
+            location.href = '1111_list.html';
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
