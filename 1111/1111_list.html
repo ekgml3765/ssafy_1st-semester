@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <table class="table">
+        <thead>
+          <th>사원 아이디</th>
+          <th>사원명</th>
+          <th>부서</th>
+          <th>직책</th>
+          <th>연봉</th>
+        </thead>
+        <tbody>
+          <tr v-for="item in employees">
+            <td></td>
+            <td>{{item.name}}</td>
+            <td>{{item.department}}</td>
+            <td>{{item.job}}</td>
+            <td>{{item.money}}</td>
+          </tr>
+        </tbody>
+      </table>
+      {{num}}
+      <button @click="click">등록하러 가기</button>
+    </div>
+    <script>
+      let num = localStorage.getItem('num');
+      let employee = JSON.parse(localStorage.getItem('employees'));
+      new Vue({
+        el: '#main',
+        data() {
+          return {
+            employees: employee,
+            num: num,
+          };
+        },
+        methods: {
+          click() {
+            location.href = '1111_register.html';
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
