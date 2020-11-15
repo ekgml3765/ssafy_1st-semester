@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>index</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  </head>
+  <body>
+    
+    <div id="app">
+      <p>
+        <router-link :to="{name:'list'}">HOME 게시판</router-link>
+      </p>
+      <router-view></router-view>
+
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+  </body>
+</html>
